@@ -14,6 +14,11 @@ var client = redis.createClient('6379', '165.227.11.227');
 //change to env variable later
 //client.auth('');
 
+//exec child process so we can run commands
+const { execFile } = require('child_process');
+
+/////////////////////// redis callbacks
+
 //called when the client successfully connects
 client.on('connect', function() {
     console.log('connected');
@@ -24,6 +29,21 @@ client.on('connect', function() {
 client.on("error", function (err) {
     console.log("Error " + err);
 });
+
+/////////////////////////////////////////////////
+
+//run child process with command and args. example "node -version" or PATHTOFILE
+function execCommand (commandWithArgs)
+{
+  const child = execFile(commandWithArgs, (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    }
+    console.log(stdout);
+    console.log(stderr);
+  });
+}
+
 
 
 //start polling the redis server for jobs
