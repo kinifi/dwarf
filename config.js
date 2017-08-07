@@ -1,11 +1,20 @@
 
 
-var config = {
-  sayHelloInEnglish: function() {
-    return "HELLO";
-  },
+function config () {
 
-sayHelloInSpanish: function() {
-    return "Hola";
-  }
-};
+}
+
+config.prototype.test = function () {
+  "hello";
+}
+
+  // function sayHelloInEnglish () {
+  //   console.log('hello');
+  // };
+  //
+  // function sayHelloInSpanish () {
+  //     console.log('Hola');
+  // };
+
+
+exports = config;

@@ -1,5 +1,12 @@
 
-var config = require('./config.js')
+//the server name [NAME]-[LOCATION]
+var serverName = "dwarf-sf";
+//the polling time in milliseconds
+var pollingTime = 1500;
+//the timer object so we can cancel it in another function
+var pollingObj;
+
+//redis object
 var redis = require('redis');
 //change to env variable
 var client = redis.createClient('6379', '165.227.11.227');
@@ -7,14 +14,31 @@ var client = redis.createClient('6379', '165.227.11.227');
 //change to env variable later
 //client.auth('');
 
-
+//called when the client successfully connects
 client.on('connect', function() {
     console.log('connected');
+
 });
 
+//called when client gets an error
 client.on("error", function (err) {
     console.log("Error " + err);
 });
+
+
+//start polling the redis server for jobs
+function startPolling () {
+
+  pollingObj = setInterval(function() { pollRedis() }, pollingTime);
+  console.log('Start Polling');
+}
+
+//stop polling the redis server for jobs
+function stopPolling () {
+
+  clearInterval(pollingObj);
+  console.log('Stop Polling');
+}
 
 //gets every key from the db
 function getKeys () {
