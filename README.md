@@ -16,3 +16,8 @@ app.js is the main script that performs the following in this exact order:
 6. Mark Command when finished as "Complete"
 7. Move Command to the Finished Pool
 8. Repeat Steps 3-8
+
+
+Maintaince: 
+
+This is performed every Tuesday. Servers are backed up and their Finished Pools remove all history.
