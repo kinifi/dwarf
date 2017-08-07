@@ -20,4 +20,4 @@ app.js is the main script that performs the following in this exact order:
 
 Maintaince: 
 
-This is performed every Tuesday. Servers are backed up and their Finished Pools remove all history.
+This is performed every Tuesday. Servers are backed up and their Finished & Failed Pools remove all history.
