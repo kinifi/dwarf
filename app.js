@@ -15,7 +15,23 @@ var client = redis.createClient('6379', '165.227.11.227');
 //client.auth('');
 
 //exec child process so we can run commands
-const { execFile } = require('child_process');
+const execFile = require('child_process');
+
+//////////////////////// test data
+
+function createTestData () {
+
+  for (i = 0; i < 5; i++) {
+    client.hmset('server' + i, {
+      'location': 'sf',
+      'command': 'start',
+      'status': 'notstarted'
+    });
+  }
+
+}
+
+
 
 /////////////////////// redis callbacks
 
@@ -32,6 +48,8 @@ client.on("error", function (err) {
 
 /////////////////////////////////////////////////
 
+
+
 //run child process with command and args. example "node -version" or PATHTOFILE
 function execCommand (commandWithArgs)
 {
@@ -44,7 +62,12 @@ function execCommand (commandWithArgs)
   });
 }
 
-
+//pass a key and get the object values attached to that key on the redis server
+function getServerInfo(key) {
+  client.hgetall(key, function(err, object) {
+    console.log(object);
+  });
+}
 
 //start polling the redis server for jobs
 function startPolling () {
