@@ -18,6 +18,7 @@ app.js is the main script that performs the following in this exact order:
 8. Repeat Steps 3-8
 
 
-Maintaince: 
-
-This is performed every Tuesday. Servers are backed up and their Finished & Failed Pools remove all history.
+Info:
+- This is performed every Tuesday. Servers are backed up and their Finished & Failed Pools remove all history.
+- each process is done in a screen - https://www.gnu.org/software/screen/manual/screen.html
+  - passes commands to servers like the following: screen -S minecraft -p 0 -X stuff "printf "say This is a test.\r"";
