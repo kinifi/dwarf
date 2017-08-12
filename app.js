@@ -8,26 +8,38 @@ var pollingObj;
 
 //redis object
 var redis = require('redis');
-//change to env variable
-var client = redis.createClient('6379', '165.227.11.227');
-//we need to send it our password
-//change to env variable later
-//client.auth('');
+
+// //change to env variable
+var client = redis.createClient("6379", "localhost");
+
+// //we need to send it our password
+// //change to env variable later
+// client.auth(PASSWORD);
 
 //exec child process so we can run commands
 const execFile = require('child_process');
 
-//////////////////////// test data
+//////////////////////// test data methods
 
 function createTestData () {
 
   for (i = 0; i < 5; i++) {
-    client.hmset('server' + i, {
-      'location': 'sf',
+    client.hmset(serverName + guid(), {
+      'servernumber': i,
       'command': 'start',
       'status': 'notstarted'
     });
   }
+
+  for (i = 0; i < 5; i++) {
+    client.hmset(serverName + guid(), {
+      'servernumber': i,
+      'command': 'start',
+      'status': 'notstarted'
+    });
+  }
+
+  console.log("test data written");
 
 }
 
@@ -39,6 +51,12 @@ function createTestData () {
 client.on('connect', function() {
     console.log('connected');
 
+    // createTestData();
+    // getKeys();
+
+    //1. start polling
+    startPolling ();
+
 });
 
 //called when client gets an error
@@ -46,8 +64,20 @@ client.on("error", function (err) {
     console.log("Error " + err);
 });
 
+client.on("end", function (err) {
+    console.log("End. Connection Ended");
+});
+
+
 /////////////////////////////////////////////////
 
+//the method that gets called from the timer
+function pollRedis () {
+
+  //get all the keys
+  getKeys();
+
+}
 
 
 //run child process with command and args. example "node -version" or PATHTOFILE
@@ -87,7 +117,11 @@ function stopPolling () {
 function getKeys () {
 
   client.keys('*', function (err, keys) {
+
     if (err) return console.log(err);
+
+    console.log(keys.length);
+
     //iterate through all the keys
     for(var i = 0, len = keys.length; i < len; i++) {
 
@@ -100,7 +134,13 @@ function getKeys () {
       //6. Delete the key from the db
       //7. update the status to COMPLETED and create a key-value in the db with the same info as the previous one just new status value
       //8. set the key to expire in 7 days
-      console.log(keys[i]);
+      // console.log(keys[i]);
+      var n = keys[i].includes(serverName);
+      if(n == true)
+      {
+        console.log("sf server");
+      }
+      // getServerInfo(keys[i]);
     }
   });
 
@@ -117,7 +157,12 @@ function expireKey (key, seconds) {
 function deleteKey (key) {
 
   client.del(key, function(err, reply) {
-    console.log(reply);
+    if (err) return console.log(err)
+    //check if it was a success
+    if(reply == "1") {
+        console.log("success");
+    }
+
   });
 
 }
@@ -140,4 +185,15 @@ function doesKeyExist (key) {
 
   return 0;
 
+}
+
+//generate a unique ID
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
 }
