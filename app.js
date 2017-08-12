@@ -1,3 +1,19 @@
+console.log("Welcome To: ");
+console.log("  --[[");
+console.log("  --[[");
+console.log("  ██████╗-██╗----██╗-█████╗-██████╗-███████╗");
+console.log("  ██╔══██╗██║----██║██╔══██╗██╔══██╗██╔════╝");
+console.log("  ██║--██║██║-█╗-██║███████║██████╔╝█████╗--");
+console.log("  ██║--██║██║███╗██║██╔══██║██╔══██╗██╔══╝--");
+console.log("  ██████╔╝╚███╔███╔╝██║--██║██║--██║██║-----");
+console.log("  ╚═════╝--╚══╝╚══╝-╚═╝--╚═╝╚═╝--╚═╝╚═╝-----");
+console.log("  ------------------------------------------");
+console.log(" --]]");
+console.log(" --[[");
+console.log("A Job Queue Server");
+
+
+var tt = require('./minecraft-pc')
 
 //the server name [NAME]-[LOCATION]
 var serverName = "dwarf-sf";
@@ -120,7 +136,7 @@ function getKeys () {
 
     if (err) return console.log(err);
 
-    console.log(keys.length);
+    // console.log(keys.length);
 
     //iterate through all the keys
     for(var i = 0, len = keys.length; i < len; i++) {
