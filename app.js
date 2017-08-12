@@ -13,10 +13,15 @@ console.log(" --[[");
 console.log("A Job Queue Server");
 
 
-var tt = require('./minecraft-pc')
+var minecraft = require('./games/minecraft-pc');
+var util = require('./utils/utils');
 
 //the server name [NAME]-[LOCATION]
 var serverName = "dwarf-sf";
+//hard drive space in Gigs
+var harddriveSpace = 30
+//ram amount
+var ramAmount = 2048
 //the polling time in milliseconds
 var pollingTime = 1500;
 //the timer object so we can cancel it in another function
@@ -40,7 +45,7 @@ const execFile = require('child_process');
 function createTestData () {
 
   for (i = 0; i < 5; i++) {
-    client.hmset(serverName + guid(), {
+    client.hmset(serverName + util.guid(), {
       'servernumber': i,
       'command': 'start',
       'status': 'notstarted'
@@ -48,9 +53,9 @@ function createTestData () {
   }
 
   for (i = 0; i < 5; i++) {
-    client.hmset(serverName + guid(), {
+    client.hmset(serverName + util.guid(), {
       'servernumber': i,
-      'command': 'start',
+      'command': 'create',
       'status': 'notstarted'
     });
   }
@@ -201,15 +206,4 @@ function doesKeyExist (key) {
 
   return 0;
 
-}
-
-//generate a unique ID
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-    s4() + '-' + s4() + s4() + s4();
 }
