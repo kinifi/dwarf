@@ -12,7 +12,6 @@ console.log(" --]]");
 console.log(" --[[");
 console.log("A Job Queue Server");
 
-
 var minecraft = require('./games/minecraft-pc');
 var util = require('./utils/utils');
 
@@ -76,7 +75,7 @@ client.on('connect', function() {
     // getKeys();
 
     //1. start polling
-    startPolling ();
+    //startPolling ();
 
 });
 
@@ -156,12 +155,15 @@ function getKeys () {
       //7. update the status to COMPLETED and create a key-value in the db with the same info as the previous one just new status value
       //8. set the key to expire in 7 days
       // console.log(keys[i]);
-      var n = keys[i].includes(serverName);
-      if(n == true)
-      {
-        console.log("sf server");
-      }
-      // getServerInfo(keys[i]);
+      // var n = keys[i].includes(serverName);
+      // if(n == true)
+      // {
+      //   console.log("sf server");
+      // }
+
+      getServerInfo(keys[i]);
+
+      
     }
   });
 
