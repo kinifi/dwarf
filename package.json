@@ -4,8 +4,12 @@
   "description": "a job worker that contacts a redist server",
   "main": "app.js",
   "scripts": {
-    "test": "start"
+    "test": "start",
   },
   "author": "kinifi",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.4.7",
+    "redis": "^2.8.0"
+  }
 }
